@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  email    String @unique
+  password String
+
+  firstname String
+  lastname  String
+  phone     String
+  address   String
+
+  Cards Card[]
+
+  @@map("users")
+}
+
+model Card {
+  id Int @id @default(autoincrement())
+
+  bank_name String
+  card_type String
+  number String @unique
+  expiry String
+
+  user_id Int
+  User    User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  Offers Offer[]
+  @@map("cards")
+}
+
+model Offer {
+  id Int @id @default(autoincrement())
+
+  bank_name String
+  category String
+  cashback Float
+  condition String
+  expiry String
+  restrictions String
+
+  card_id Int
+  Card    Card @relation(fields: [card_id], references: [id], onDelete: Cascade)
+ 
+ @@map("offers")
+}
