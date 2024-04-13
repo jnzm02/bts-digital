@@ -42,7 +42,6 @@ model Offer {
   id Int @id @default(autoincrement())
 
   bank_name String
-  category String
   cashback Float
   condition String
   expiry String
@@ -50,6 +49,17 @@ model Offer {
 
   card_id Int
   Card    Card @relation(fields: [card_id], references: [id], onDelete: Cascade)
- 
+
+  Categories Category[]
  @@map("offers")
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+  description String
+
+  Offers Offer[]
+  @@map("categories")
 }

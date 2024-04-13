@@ -6,10 +6,6 @@ export class OfferDto {
 
   @IsString()
   @IsNotEmpty()
-  category: string;
-
-  @IsString()
-  @IsNotEmpty()
   cashback: number;
 
   @IsString()

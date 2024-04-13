@@ -12,6 +12,7 @@ import { componentLoader, Components } from './adminjs/components';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CardModule } from './card/card.module';
 import { OfferModule } from './offer/offer.module';
+import { CategoryModule } from './category/category.module';
 
 AdminJS.registerAdapter({
   Resource,
@@ -122,6 +123,7 @@ const authenticate = async (email: string, password: string) => {
     ConfigModule.forRoot({ envFilePath: '.env' }),
     CardModule,
     OfferModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}

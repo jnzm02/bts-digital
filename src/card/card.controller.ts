@@ -8,11 +8,12 @@ import {
   Post,
   Patch,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CardDto } from './dto';
 import { CardService } from './card.service';
 
 @Controller('card')
+@ApiTags('Cards')
 export class CardController {
   constructor(private cardService: CardService) {}
 
