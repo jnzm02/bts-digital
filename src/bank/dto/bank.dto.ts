@@ -1,14 +1,10 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-export class CardDto {
+export class BankDto {
   @IsString()
   @IsNotEmpty()
-  card_type: string;
+  name: string;
 
   @IsString()
   @IsNotEmpty()
-  number: string;
-
-  @IsString()
-  @IsNotEmpty()
-  expiry: string;
+  description: string;
 }

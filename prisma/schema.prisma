@@ -26,40 +26,59 @@ model User {
 model Card {
   id Int @id @default(autoincrement())
 
-  bank_name String
   card_type String
-  number String @unique
-  expiry String
+  number    String @unique
+  expiry    String
 
   user_id Int
   User    User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  Offers Offer[]
+  bank_id Int
+  Bank    Bank    @relation(fields: [bank_id], references: [id], onDelete: Cascade)
+  // Offers  Offer[]
+
   @@map("cards")
 }
 
 model Offer {
   id Int @id @default(autoincrement())
 
-  bank_name String
-  cashback Float
-  condition String
-  expiry String
+  cashback     Float
+  condition    String
+  expiry       String
   restrictions String
 
-  card_id Int
-  Card    Card @relation(fields: [card_id], references: [id], onDelete: Cascade)
+  card_type    String
 
+  // card_id Int
+  // Card    Card @relation(fields: [card_id], references: [id], onDelete: Cascade)
+
+  bank_id    Int
+  Bank       Bank       @relation(fields: [bank_id], references: [id], onDelete: Cascade)
   Categories Category[]
- @@map("offers")
+
+  @@map("offers")
 }
 
 model Category {
   id Int @id @default(autoincrement())
 
-  name String @unique
+  name        String @unique
   description String
 
   Offers Offer[]
+
   @@map("categories")
+}
+
+model Bank {
+  id Int @id @default(autoincrement())
+
+  name        String @unique
+  description String
+
+  Offers Offer[]
+  Cards  Card[]
+
+  @@map("banks")
 }

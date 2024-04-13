@@ -18,11 +18,11 @@ export class OfferService {
     });
   }
 
-  async create(dto: OfferDto, card_id: number) {
+  async create(dto: OfferDto, bank_id: number) {
     return await this.prisma.offer.create({
       data: {
         ...dto,
-        card_id,
+        bank_id,
       },
     });
   }
@@ -45,6 +45,7 @@ export class OfferService {
       },
     });
   }
+
   async delete(id: number) {
     const offer = await this.prisma.offer.delete({
       where: {
@@ -56,4 +57,12 @@ export class OfferService {
     }
     return offer;
   }
+
+  // async getOffersByCardId(card_id: number, category_id: number) {
+  //   return await this.prisma.offer.findMany({
+  //     where: {
+  //       card_id,
+  //     },
+  //   });
+  // }
 }

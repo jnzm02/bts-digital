@@ -18,7 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger/dist';
 
-@ApiTags('Пользователи')
+@ApiTags('Users')
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}

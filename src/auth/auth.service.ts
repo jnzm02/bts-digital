@@ -46,6 +46,7 @@ export class AuthService {
       phone: user.phone,
       firstname: user.firstname,
       lastname: user.lastname,
+      address: user.address,
     });
   }
 
@@ -58,7 +59,10 @@ export class AuthService {
       expiresIn: '7d',
       secret: process.env.JWT_SECRET,
     });
-    return { Access_Token: token };
+    return {
+      Access_Token: token,
+      user_data: tokenData,
+    };
   }
 
   async validate(dto: { token: string }) {

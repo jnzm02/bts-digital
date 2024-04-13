@@ -18,10 +18,11 @@ export class CardService {
     });
   }
 
-  async create(dto: CardDto, user_id: number) {
+  async create(dto: CardDto, user_id: number, bank_id: number) {
     return await this.prisma.card.create({
       data: {
         ...dto,
+        bank_id,
         user_id,
       },
     });

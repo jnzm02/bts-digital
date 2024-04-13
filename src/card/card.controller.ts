@@ -19,12 +19,13 @@ export class CardController {
 
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: CardDto })
-  @Post()
+  @Post(':user_id/:bank_id')
   create(
     @Body() dto: CardDto,
     @Param('user_id', new ParseIntPipe()) user_id: number,
+    @Param('bank_id', new ParseIntPipe()) bank_id: number,
   ) {
-    return this.cardService.create(dto, user_id);
+    return this.cardService.create(dto, user_id, bank_id);
   }
 
   @ApiBearerAuth()

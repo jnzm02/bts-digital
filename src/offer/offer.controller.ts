@@ -19,12 +19,12 @@ export class OfferController {
 
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: OfferDto })
-  @Post()
+  @Post(':card_id/:bank_id')
   create(
     @Body() dto: OfferDto,
-    @Param('card_id', new ParseIntPipe()) card_id: number,
+    @Param('card_id', new ParseIntPipe()) bank_id: number,
   ) {
-    return this.offerService.create(dto, card_id);
+    return this.offerService.create(dto, bank_id);
   }
 
   @ApiBearerAuth()

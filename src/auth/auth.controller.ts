@@ -9,19 +9,19 @@ import {
   ApiForbiddenResponse,
 } from '@nestjs/swagger/dist';
 
-@ApiTags('Аутентификация')
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @ApiOperation({ summary: 'Регистрация юзера' })
+  @ApiOperation({ summary: 'Registration' })
   @ApiResponse({ status: 200, type: UserDto || String })
   @Post('register')
   register(@Body() dto: UserDto) {
     return this.authService.register(dto);
   }
 
-  @ApiOperation({ summary: 'Логин' })
+  @ApiOperation({ summary: 'Login' })
   @ApiForbiddenResponse({ description: 'Incorrect password.' })
   @ApiResponse({ status: 200, type: String })
   @Post('login')

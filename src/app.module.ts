@@ -13,6 +13,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { CardModule } from './card/card.module';
 import { OfferModule } from './offer/offer.module';
 import { CategoryModule } from './category/category.module';
+import { BankModule } from './bank/bank.module';
 
 AdminJS.registerAdapter({
   Resource,
@@ -90,9 +91,31 @@ const authenticate = async (email: string, password: string) => {
                   },
                 },
               },
+              // Bank
+              {
+                resource: { model: dmmf.modelMap.Bank, client: prisma },
+                options: {
+                  actions: {
+                    new: { isAccessible: true },
+                    edit: { isAccessible: true },
+                    delete: { isAccessible: true },
+                  },
+                },
+              },
               // Offer
               {
                 resource: { model: dmmf.modelMap.Offer, client: prisma },
+                options: {
+                  actions: {
+                    new: { isAccessible: true },
+                    edit: { isAccessible: true },
+                    delete: { isAccessible: true },
+                  },
+                },
+              },
+              // Category
+              {
+                resource: { model: dmmf.modelMap.Category, client: prisma },
                 options: {
                   actions: {
                     new: { isAccessible: true },
@@ -124,6 +147,7 @@ const authenticate = async (email: string, password: string) => {
     CardModule,
     OfferModule,
     CategoryModule,
+    BankModule,
   ],
 })
 export class AppModule {}
