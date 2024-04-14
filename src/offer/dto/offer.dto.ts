@@ -6,6 +6,10 @@ export class OfferDto {
 
   @IsString()
   @IsNotEmpty()
+  category: string;
+
+  @IsString()
+  @IsNotEmpty()
   condition: string;
 
   @IsString()

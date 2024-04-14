@@ -47,11 +47,8 @@ model Offer {
   condition    String
   expiry       String
   restrictions String
-
+  category     String
   card_type    String
-
-  // card_id Int
-  // Card    Card @relation(fields: [card_id], references: [id], onDelete: Cascade)
 
   bank_id    Int
   Bank       Bank       @relation(fields: [bank_id], references: [id], onDelete: Cascade)

@@ -17,15 +17,15 @@ import { OfferService } from './offer.service';
 export class OfferController {
   constructor(private offerService: OfferService) {}
 
-  @ApiBearerAuth()
-  @ApiResponse({ status: 200, type: OfferDto })
-  @Post(':card_id/:bank_id')
-  create(
-    @Body() dto: OfferDto,
-    @Param('card_id', new ParseIntPipe()) bank_id: number,
-  ) {
-    return this.offerService.create(dto, bank_id);
-  }
+  // @ApiBearerAuth()
+  // @ApiResponse({ status: 201, type: OfferDto })
+  // @Post(':bank_id')
+  // create(
+  //   @Body() dto: OfferDto,
+  //   @Param('bank_id', new ParseIntPipe()) bank_id: number,
+  // ) {
+  //   return this.offerService.create(dto, bank_id);
+  // }
 
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: OfferDto })
@@ -39,6 +39,31 @@ export class OfferController {
   @Get()
   getAll() {
     return this.offerService.getAll();
+  }
+
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: [OfferDto] })
+  @Get('by-category/:user_id/:category_id')
+  async getByCategory(
+    @Param('user_id', new ParseIntPipe()) user_id: number,
+    @Param('category_id', new ParseIntPipe()) category_id: number,
+  ) {
+    const myOffers = await this.offerService.getOffersByCategory(
+      user_id,
+      category_id,
+    );
+    const suggestedOffers = await this.offerService.getSuggestedOffers(
+      user_id,
+      category_id,
+    );
+    return { myOffers, suggestedOffers };
+  }
+
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: [OfferDto] })
+  @Get('by-card/:card_id')
+  getByCard(@Param('card_id', new ParseIntPipe()) card_id: number) {
+    return this.offerService.getOffersByCard(card_id);
   }
 
   @ApiBearerAuth()

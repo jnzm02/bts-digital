@@ -22,10 +22,31 @@ export class UserService {
       where: {
         id: id,
       },
+      include: {
+        Cards: true,
+      },
     });
     if (!user)
       throw new NotFoundException('User with id: ' + id + ' not found');
     return user;
+  }
+
+  async getMyCards(user_id: number) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: user_id,
+      },
+      include: {
+        Cards: {
+          include: {
+            Bank: true,
+          },
+        },
+      },
+    });
+    if (!user)
+      throw new NotFoundException('User with id: ' + user_id + ' not found');
+    return user.Cards;
   }
 
   async create(dto: UserDto) {

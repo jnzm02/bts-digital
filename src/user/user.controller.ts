@@ -17,6 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger/dist';
+import { CardDto } from 'src/card/dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -37,6 +38,14 @@ export class UserController {
   @Get(':id')
   get(@Param('id', new ParseIntPipe()) id: number) {
     return this.userService.get(id);
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get user by id' })
+  @ApiResponse({ status: 200, type: CardDto })
+  @Get('my-cards/:user_id')
+  getMyCards(@Param('user_id', new ParseIntPipe()) user_id: number) {
+    return this.userService.getMyCards(user_id);
   }
 
   @ApiBearerAuth()

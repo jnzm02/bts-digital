@@ -18,19 +18,19 @@ export class OfferService {
     });
   }
 
-  async create(dto: OfferDto, bank_id: number) {
-    return await this.prisma.offer.create({
-      data: {
-        ...dto,
-        bank_id,
-      },
-    });
-  }
+  // async create(dto: OfferDto, bank_id: number) {
+  //   return await this.prisma.offer.create({
+  //     data: {
+  //       ...dto,
+  //       bank_id,
+  //     },
+  //   });
+  // }
 
   async update(id: number, dto: OfferDto) {
     const offer = await this.prisma.offer.findFirst({
       where: {
-        id: id,
+        id,
       },
     });
     if (!offer) {
@@ -58,11 +58,80 @@ export class OfferService {
     return offer;
   }
 
-  // async getOffersByCardId(card_id: number, category_id: number) {
-  //   return await this.prisma.offer.findMany({
-  //     where: {
-  //       card_id,
-  //     },
-  //   });
-  // }
+  async getOffersByCategory(user_id: number, category_id: number) {
+    const cards = await this.prisma.card.findMany({
+      where: {
+        user_id,
+      },
+    });
+    const category = await this.prisma.category.findFirst({
+      where: {
+        id: category_id,
+      },
+    });
+    const bank_ids = cards.map((card) => card.bank_id);
+    const offers = await this.prisma.offer.findMany({
+      where: {
+        bank_id: {
+          in: bank_ids,
+        },
+        card_type: {
+          in: cards.map((card) => card.card_type),
+        },
+        category: category.name,
+      },
+    });
+    return offers;
+  }
+
+  async getOffersByCard(user_id: number) {
+    const cards = await this.prisma.card.findMany({
+      where: {
+        user_id,
+      },
+    });
+    const bank_ids = cards.map((card) => card.bank_id);
+    const offers = await this.prisma.offer.findMany({
+      where: {
+        bank_id: {
+          in: bank_ids,
+        },
+        card_type: {
+          in: cards.map((card) => card.card_type),
+        },
+      },
+    });
+    return offers;
+  }
+
+  async getSuggestedOffers(category_id: number, user_id: number) {
+    const category = await this.prisma.category.findFirst({
+      where: {
+        id: category_id,
+      },
+    });
+    const offers = await this.prisma.offer.findMany({
+      where: {
+        category: category.name,
+      },
+    });
+    const cards = await this.prisma.card.findMany({
+      where: {
+        user_id,
+      },
+    });
+    const suggestedOffers = offers.filter((offer) => {
+      if (
+        cards.some(
+          (card) =>
+            card.bank_id !== offer.bank_id ||
+            card.card_type !== offer.card_type,
+        )
+      ) {
+        return true;
+      }
+    });
+    suggestedOffers.sort((a, b) => b.cashback - a.cashback);
+    return suggestedOffers.slice(0, 2);
+  }
 }

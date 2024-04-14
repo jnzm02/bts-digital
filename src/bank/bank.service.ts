@@ -15,6 +15,9 @@ export class BankService {
       where: {
         id: id,
       },
+      include: {
+        Cards: true,
+      },
     });
   }
 
