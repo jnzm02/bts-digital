@@ -80,6 +80,9 @@ export class OfferService {
         },
         category: category.name,
       },
+      include: {
+        Bank: true,
+      },
     });
     return offers;
   }
@@ -100,6 +103,9 @@ export class OfferService {
           in: cards.map((card) => card.card_type),
         },
       },
+      include: {
+        Bank: true,
+      },
     });
     return offers;
   }
@@ -113,6 +119,9 @@ export class OfferService {
     const offers = await this.prisma.offer.findMany({
       where: {
         category: category.name,
+      },
+      include: {
+        Bank: true,
       },
     });
     const cards = await this.prisma.card.findMany({
